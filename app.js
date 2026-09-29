@@ -5,7 +5,7 @@
   const MODULES = {
     members: {
       store: 'members', navKey: 'nav_members', titleKey: 'nav_members',
-      importMatchKeys: ['member_name', 'parent_phone'], // resolved to field keys below
+      importMatchKeys: ['name', 'parentPhone'],
       fields: [
         { key: 'name', labelKey: 'member_name', type: 'text', required: true },
         { key: 'birthDate', labelKey: 'member_birthdate', type: 'date' },
@@ -321,7 +321,7 @@
         });
         const hasContent = Object.values(record).some((v) => v !== '' && v != null && v !== false);
         if (!hasContent) continue;
-        const matchFieldKeys = (mod.importMatchKeys || []).map((k) => (MODULES[modKey].fields.find((f) => f.key === k) ? k : k));
+        const matchFieldKeys = mod.importMatchKeys || [];
         let match = null;
         if (matchFieldKeys.every((k) => record[k] !== undefined && record[k] !== '' && record[k] !== null)) {
           match = existing.find((e) => matchFieldKeys.every((k) => String(e[k]) === String(record[k])));
@@ -958,6 +958,13 @@
       await seedPlanIfEmpty();
       if (window.NKAuth) {
         try { await window.NKAuth.init(); } catch (e) { console.warn('auth init failed, continuing offline', e); }
+        if (window.NKAuth.needsAuthGate && window.NKAuth.needsAuthGate()) {
+          document.getElementById('tabbar').innerHTML = '';
+          app.innerHTML = '';
+          app.appendChild(window.NKAuth.renderAuthGate(el));
+          window.I18N.applyStaticTranslations(app);
+          return;
+        }
       }
       render();
     } catch (err) {
