@@ -1,6 +1,6 @@
-/* sw.js — bump CACHE whenever you redeploy changed files so phones pick. 
+/* sw.js — bump CACHE whenever you redeploy changed files so phones pick
  * up the update (old cache is dropped in activate). */
-const CACHE = 'hetsanat-kefel-v3';
+const CACHE = 'hetsanat-kefel-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -9,6 +9,7 @@ const ASSETS = [
   './db.js',
   './plan-seed.js',
   './auth.js',
+  './reminders.js',
   './app.js',
   './ethiopian-calendar.js',
   './manifest.json',
