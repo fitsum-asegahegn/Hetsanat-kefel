@@ -1011,6 +1011,13 @@
           window.I18N.applyStaticTranslations(app);
           return;
         }
+        if ((window.NKAuth.isPending && window.NKAuth.isPending()) || (window.NKAuth.isRejected && window.NKAuth.isRejected())) {
+          document.getElementById('tabbar').innerHTML = '';
+          app.innerHTML = '';
+          app.appendChild(window.NKAuth.renderApprovalGate(el));
+          window.I18N.applyStaticTranslations(app);
+          return;
+        }
       }
       render();
       if (window.NKReminders) {
